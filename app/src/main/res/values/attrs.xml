@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LimitScroller">
+        <attr name="limit" format="integer" />             <!--显示的条目数量-->
+        <attr name="durationTime" format="integer" /> />   <!--滚动速度，比如3000，滚动时间会持续3秒钟-->
+        <attr name="periodTime" format="integer" /> />     <!--滚动间隔，比如5000，滚动完成后停留5秒继续滚动-->
+    </declare-styleable>
+
+</resources>

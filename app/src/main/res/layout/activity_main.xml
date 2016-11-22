@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:openxu="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dip"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="#0099ff"
+        android:gravity="center"
+        android:text="其他内容" />
+    <com.openxu.lc.LimitScrollerView
+        android:id="@+id/limitScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        openxu:limit="2"
+        openxu:durationTime="3000"
+        openxu:periodTime="5000"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00ff00"
+        android:gravity="center"
+        android:text="其他内容" />
+</LinearLayout>
