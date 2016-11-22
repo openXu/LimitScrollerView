@@ -1,13 +1,13 @@
-# LimitScrollerView
+##LimitScrollerView
 
-仿天猫轮转广告条，可指定每次展示的广告条数，滚动速度、滚动时间间隔
+##仿天猫轮转广告条，可指定每次展示的广告条数，滚动速度、滚动时间间隔
 
-效果图：
-![效果图](/SampleGraph.gif "Title")
+##效果图：
+
+![](/SampleGraph.gif "效果图")
 
 
-
-使用方法：
+##使用方法：
 
 1、文件拷贝：
   ①、将`limit_scroller.xml`、`limit_scroller_item.xml`拷贝到`layout`文件夹中
@@ -36,7 +36,6 @@
     adapter = new MyLimitScrllAdapter();
     limitScroll.setDataAdapter(adapter);
 ```
-  
   ③、请求到服务器数据后填充数据
 ```
     adapter.setDatas(datas);
@@ -52,7 +51,6 @@
   //API:3、停止滚动
   limitScroll.cancel();  
 ```
-
   ⑤、条目点击事件
 ```
   //API：4、设置条目点击事件
