@@ -1,3 +1,10 @@
+
+仿天猫轮转广告条，可指定每次展示的广告条数，滚动速度、滚动时间间隔
+
+
+
+
+
 使用方法：
 
 1、文件拷贝：
@@ -42,4 +49,21 @@
 ```
   //API:3、停止滚动
   limitScroll.cancel();  
+```
+
+  ⑤、条目点击事件
+```
+  //API：4、设置条目点击事件
+  limitScroll.setOnItemClickListener(new LimitScrollerView.OnItemClickListener() {
+      @Override
+      public void onItemClick(Object obj) {
+          if(obj instanceof DataBean){
+              //强制转换
+              DataBean bean = (DataBean)obj;
+              Toast.makeText(MainActivity.this, "点击了："+bean.getText(), Toast.LENGTH_SHORT).show();
+              Log.v("oepnxu", "点击了："+bean.getText());
+          }
+
+      }
+  });
 ```

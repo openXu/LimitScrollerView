@@ -2,10 +2,12 @@ package com.openxu.lc;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,23 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         limitScroll = (LimitScrollerView)findViewById(R.id.limitScroll);
-        adapter = new MyLimitScrllAdapter();
+
+        //API：4、设置条目点击事件
+        limitScroll.setOnItemClickListener(new LimitScrollerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object obj) {
+                if(obj instanceof DataBean){
+                    //强制转换
+                    DataBean bean = (DataBean)obj;
+                    Toast.makeText(MainActivity.this, "点击了："+bean.getText(), Toast.LENGTH_SHORT).show();
+                    Log.v("oepnxu", "点击了："+bean.getText());
+                }
+
+            }
+        });
+
         //API:1、设置数据适配器
+        adapter = new MyLimitScrllAdapter();
         limitScroll.setDataAdapter(adapter);
 
         initData();
@@ -31,7 +48,7 @@ public class MainActivity extends Activity {
 
     private void initData(){
 
-        //TODO 一、模拟获取服务器数据，此处需要修改
+        //TODO 模拟获取服务器数据操作，此处需要修改
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -42,15 +59,15 @@ public class MainActivity extends Activity {
                 }
 
                 List<DataBean> datas = new ArrayList<>();
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本1"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本2"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本3"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本4"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本5"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本6"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本7"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本8"));
-                datas.add(new DataBean(R.mipmap.ic_launcher, "我是文本9"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "1.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "2.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "3.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "4.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "5.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "6.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "7.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "8.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
+                datas.add(new DataBean(R.mipmap.ic_launcher, "9.劲爆促销中，凡在此商场消费满888的顾客，请拿着小票到前台咨询处免费领取美女一枚"));
 
                 adapter.setDatas(datas);
 
@@ -90,6 +107,7 @@ public class MainActivity extends Activity {
 
             //绑定数据
             DataBean data = datas.get(index);
+            itemView.setTag(data);
             iv_icon.setImageResource(data.getIcon());
             tv_text.setText(data.getText());
             return itemView;

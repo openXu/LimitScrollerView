@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         openxu:limit="2"
-        openxu:durationTime="3000"
-        openxu:periodTime="5000"/>
+        openxu:durationTime="1500"
+        openxu:periodTime="2000"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

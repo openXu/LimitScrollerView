@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
  * version : 1.0
  * class describe：
  */
-public class LimitScrollerView extends LinearLayout{
+public class LimitScrollerView extends LinearLayout implements View.OnClickListener{
 
     private String TAG = "LimitScrollerView";
 
@@ -88,12 +88,31 @@ public class LimitScrollerView extends LinearLayout{
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        //EXACTLY=1073741824
+        //AT_MOST=-2147483648
+/*        int specMode = MeasureSpec.getMode(heightMeasureSpec);
+        int specSize = MeasureSpec.getSize(heightMeasureSpec);
+        Log.w(TAG, "specMode="+specMode);
+        Log.w(TAG, "specSize="+specSize);
+        int newHeightSpec = MeasureSpec.makeMeasureSpec(specSize, MeasureSpec.EXACTLY);
+        int childCount = ll_content1.getChildCount();
+        if(childCount>0){
+            View item = ll_content1.getChildAt(0);
+            item.measure(widthMeasureSpec, newHeightSpec);
+            Log.w(TAG, "条目高度="+   item.getMeasuredHeight());
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight()/2);
+            scrollHeight = getMeasuredHeight();
+            return;
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);*/
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight()/2);
         scrollHeight = getMeasuredHeight();
-//        Log.w(TAG, "getMeasuredWidth="+getMeasuredWidth());
-//        Log.w(TAG, "getMeasuredHeight="+getMeasuredHeight());
-//        Log.w(TAG, "scrollHeight="+scrollHeight);
+        Log.w(TAG, "getMeasuredWidth="+getMeasuredWidth());
+        Log.w(TAG, "getMeasuredHeight="+getMeasuredHeight());
+        Log.w(TAG, "scrollHeight="+scrollHeight);
     }
 
     private void startAnimation(){
@@ -152,6 +171,11 @@ public class LimitScrollerView extends LinearLayout{
                 if(dataIndex>=adapter.getCount())
                     dataIndex = 0;
                 View view = adapter.getView(dataIndex);
+
+                //设置点击监听
+                view.setClickable(true);
+                view.setOnClickListener(this);
+
                 ll_now.addView(view);
                 dataIndex ++;
             }
@@ -162,8 +186,19 @@ public class LimitScrollerView extends LinearLayout{
             if(dataIndex>=adapter.getCount())
                 dataIndex = 0;
             View view = adapter.getView(dataIndex);
+            //设置点击监听
+            view.setClickable(true);
+            view.setOnClickListener(this);
             ll_down.addView(view);
             dataIndex ++;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(clickListener!=null){
+            Object obj = v.getTag();
+            clickListener.onItemClick(obj);
         }
     }
 
@@ -171,9 +206,12 @@ public class LimitScrollerView extends LinearLayout{
         public int getCount();
         public View getView(int index);
     }
-
     private LimitScrllAdapter adapter;
 
+    interface OnItemClickListener{
+        public void onItemClick(Object obj);
+    }
+    private OnItemClickListener clickListener;
     /**********************public API 以下为暴露的接口***********************/
 
     /**
@@ -207,6 +245,14 @@ public class LimitScrollerView extends LinearLayout{
      */
     public void cancel(){
         isCancel = true;
+    }
+
+    /**
+     * 4、设置条目点击事件
+     * @param listener
+     */
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.clickListener = listener;
     }
 
 }
