@@ -1,6 +1,7 @@
 package com.openxu.lc;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -120,5 +121,9 @@ public class MainActivity extends Activity {
         super.onStop();
         //API:3、停止滚动
         limitScroll.cancel();
+    }
+
+    public void to(View v){
+        startActivity(new Intent(this,ToActivity.class));
     }
 }

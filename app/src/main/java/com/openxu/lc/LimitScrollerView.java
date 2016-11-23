@@ -34,12 +34,10 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
     private int periodTime;     //间隔时间
     private int scrollHeight;   //滚动高度（控件高度）
 
-
     private int dataIndex;
 
-    private boolean isCancel;
-    private boolean boundData;   //是否已经第一次绑定过数据
-
+    private boolean isCancel;      //是否停止滚动动画
+    private boolean boundData;     //是否已经第一次绑定过数据
 
     private final int MSG_SETDATA = 1;
     private final int MSG_SCROL = 2;
@@ -50,6 +48,8 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
             if(msg.what == MSG_SETDATA){
                 boundData(true);
             }else if(msg.what == MSG_SCROL){
+                if(isCancel)
+                    return;
                 startAnimation();
             }
         }
@@ -112,9 +112,9 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
         setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight()/2);
         //此处记下控件的高度，此高度就是动画执行时向上滚动的高度
         scrollHeight = getMeasuredHeight();
-        Log.w(TAG, "getMeasuredWidth="+getMeasuredWidth());
-        Log.w(TAG, "getMeasuredHeight="+getMeasuredHeight());
-        Log.w(TAG, "scrollHeight="+scrollHeight);
+//        Log.w(TAG, "getMeasuredWidth="+getMeasuredWidth());
+//        Log.w(TAG, "getMeasuredHeight="+getMeasuredHeight());
+//        Log.w(TAG, "scrollHeight="+scrollHeight);
     }
 
     private void startAnimation(){
@@ -149,7 +149,11 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
 //                Log.v(TAG, "2调整之后ll_down位置："+ll_down.getX()+"*"+ll_down.getY());
                 //给不可见的控件绑定新数据
                 boundData(false);
-                //重复动画
+
+                handler.removeMessages(MSG_SCROL);
+                if(isCancel) {
+                    return;
+                }
                 handler.sendEmptyMessageDelayed(MSG_SCROL, periodTime);
 
             }
@@ -244,6 +248,8 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
             handler.sendEmptyMessage(MSG_SETDATA);
         }
         isCancel = false;
+        Log.e(TAG, "开始滚动");
+        handler.removeMessages(MSG_SCROL);   //先清空所有滚动消息，避免滚动错乱
         handler.sendEmptyMessageDelayed(MSG_SCROL, periodTime);
     }
     /**
@@ -252,6 +258,7 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
      */
     public void cancel(){
         isCancel = true;
+        Log.e(TAG, "停止滚动");
     }
 
     /**

@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00ff00"
+        android:onClick="to"
         android:gravity="center"
         android:text="其他内容" />
 </LinearLayout>
