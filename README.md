@@ -4,7 +4,8 @@
 
 ##效果图：
 
-![](/SampleGraph.gif "效果图")
+![](/tm.gif "效果图")
+![](/LimitScrollerView.gif "效果图")
 
 
 ##使用方法：

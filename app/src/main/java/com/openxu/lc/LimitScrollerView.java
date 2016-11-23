@@ -108,7 +108,9 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);*/
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        //设置高度为整体高度的一般，以达到遮盖预备容器的效果
         setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight()/2);
+        //此处记下控件的高度，此高度就是动画执行时向上滚动的高度
         scrollHeight = getMeasuredHeight();
         Log.w(TAG, "getMeasuredWidth="+getMeasuredWidth());
         Log.w(TAG, "getMeasuredHeight="+getMeasuredHeight());
@@ -119,8 +121,9 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
         if(isCancel)
             return;
         Log.i(TAG, "滚动");
+        //当前展示的容器，从当前位置（0）,向上滚动scrollHeight
         ObjectAnimator anim1 = ObjectAnimator.ofFloat(ll_now, "Y",ll_now.getY(), ll_now.getY()-scrollHeight);
-        //下面的部分，从当前位置，向上滚动scrollHeight
+        //预备容器，从当前位置，向上滚动scrollHeight
         ObjectAnimator anim2 = ObjectAnimator.ofFloat(ll_down, "Y",ll_down.getY(), ll_down.getY()-scrollHeight);
         AnimatorSet animSet = new AnimatorSet();
         animSet.setDuration(durationTime);
@@ -160,12 +163,16 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
         animSet.start();
     }
 
+    /**
+     * 向容器中添加子条目
+     * @param first
+     */
     private void boundData(boolean first){
         if(adapter==null || adapter.getCount()<=0)
             return;
         if(first){
+            //第一次绑定数据，需要为两个容器添加子条目
             boundData = true;
-            Log.v(TAG, "第一次绑定数据");
             ll_now.removeAllViews();
             for(int i = 0; i<limit; i++){
                 if(dataIndex>=adapter.getCount())
@@ -181,6 +188,7 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
             }
         }
 
+        //每次动画结束之后，为预备容器添加新条目
         ll_down.removeAllViews();
         for(int i = 0; i<limit; i++){
             if(dataIndex>=adapter.getCount())
@@ -202,11 +210,11 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
         }
     }
 
-    interface LimitScrllAdapter{
+    interface LimitScrollAdapter{
         public int getCount();
         public View getView(int index);
     }
-    private LimitScrllAdapter adapter;
+    private LimitScrollAdapter adapter;
 
     interface OnItemClickListener{
         public void onItemClick(Object obj);
@@ -218,7 +226,7 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
      * 1、设置数据适配器
      * @param adapter
      */
-    public void setDataAdapter(LimitScrllAdapter adapter){
+    public void setDataAdapter(LimitScrollAdapter adapter){
         this.adapter = adapter;
         handler.sendEmptyMessage(MSG_SETDATA);
     }
@@ -238,7 +246,6 @@ public class LimitScrollerView extends LinearLayout implements View.OnClickListe
         isCancel = false;
         handler.sendEmptyMessageDelayed(MSG_SCROL, periodTime);
     }
-
     /**
      * 3、停止滚动
      * 当在Activity不可见时，在Activity.onStop()中调用

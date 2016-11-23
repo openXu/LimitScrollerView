@@ -15,7 +15,7 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     private LimitScrollerView limitScroll;
-    private MyLimitScrllAdapter adapter;
+    private MyLimitScrollAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
         });
 
         //API:1、设置数据适配器
-        adapter = new MyLimitScrllAdapter();
+        adapter = new MyLimitScrollAdapter();
         limitScroll.setDataAdapter(adapter);
 
         initData();
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 
 
     //TODO 修改适配器绑定数据
-    class MyLimitScrllAdapter implements LimitScrollerView.LimitScrllAdapter{
+    class MyLimitScrollAdapter implements LimitScrollerView.LimitScrollAdapter{
 
         private List<DataBean> datas;
         public void setDatas(List<DataBean> datas){
